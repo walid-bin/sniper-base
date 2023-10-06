@@ -1,0 +1,13 @@
+// webThree.getBalanceOf("0x172F7E333a2B812DfD499eFD0E390736dCaa114B").then(res => res)
+
+// webThree.getBalanceOf(data.returnValues.trader).then(res => console.log(webThree.web3.utils.fromWei(res, 'ether'), data.returnValues.isBuy, data.returnValues.ethAmount, data.transactionHash));
+
+/*  
+      this is the condition of decide snipe if true snipe
+      console.log(response.isBuy && (response.trader === response.ref) && (Number(response.value) === 0), response.transactionHash);
+*/
+
+/*
+      the respnse contains the refer address and trader address, and also have transection hash and the caller of the event is buy or not. 
+      now you have to decide the action
+*/
