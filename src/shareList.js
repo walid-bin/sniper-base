@@ -6,9 +6,8 @@ const csvFilePath = `${process.cwd()}/src/shareList.csv`;
 fs.createReadStream(csvFilePath)
   .pipe(parse())
   .on('data', (row) => {
-    const [shares, sum1, sum2, summation, priceInwei, buyPrice, sellPrice] = row;
     if (shares !== 'Shares') {
-      dataArray.push({ shares, buyPrice });
+      dataArray.push({ shares: row[0], buyPrice: row[5] });
     }
   })
   .on('error', (error) => {
