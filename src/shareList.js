@@ -6,7 +6,7 @@ const csvFilePath = `${process.cwd()}/src/shareList.csv`;
 fs.createReadStream(csvFilePath)
   .pipe(parse())
   .on('data', (row) => {
-    if (shares !== 'Shares') {
+    if (row[0] !== 'Shares') {
       dataArray.push({ shares: row[0], buyPrice: row[5] });
     }
   })
