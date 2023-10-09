@@ -8,10 +8,8 @@ const webThree = new Web3Ins(key);
 let limit = Number(process.env.LIMIT);
 const cont = webThree.getContract();
 
-cont.events.Trade({}, (id) => {
-    console.log(id);
+cont.events.Trade({}, () => {
 }).on('data', async (data) => {
-    // console.log({ limit });
     const response = {
         isBuy: data.returnValues.isBuy,
         transactionHash: data.transactionHash,
@@ -25,10 +23,14 @@ cont.events.Trade({}, (id) => {
     response.balanceOf = webThree.web3.utils.fromWei(balanceOf, 'ether');
 
     const shouldTrade = (response.isBuy && (response.trader === response.ref) && (Number(response.value) === 0));
-    if (!shouldTrade) return;
+    if (!shouldTrade) return console.log("[+] = Not snipeable trade");;
+    console.log("[+] = New snipable trade occure");
     const values = valueProvider(response.balanceOf);
-    if (!values || !((limit -= Number(values.buyPrice)) >= 0)) return;
+    if (!values || !((limit -= Number(values.buyPrice)) >= 0)) return console.log("[+] = Something wrong with values or limit");
     const buy = await webThree.buyShares({ ...values, trader: response.trader });
-    if (!buy) limit += Number(values.buyPrice);
-    // console.log({ lm: limit });
+    if (!buy) {
+        limit += Number(values.buyPrice);
+        return console.log("[+] = filed to buy");
+    };
+    console.log({ BuyResponse: buy });
 });

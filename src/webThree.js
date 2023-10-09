@@ -22,18 +22,14 @@ class Web3Ins {
   }
 
   async buyShares(values) {
-    // console.log('ss')
-    const balns = this.web3.utils.toWei(Number(values.buyPrice) + (Number(values.buyPrice) * .10), 'ether');
-    console.log({ balns })
-    const block = await this.web3.eth.getBlock('latest');
-    // console.log({ block })
     try {
+      console.log("[+] = Trigger snipe");
+      const balns = this.web3.utils.toWei(Number(values.buyPrice) + (Number(values.buyPrice) * .10), 'ether');
+      const block = await this.web3.eth.getBlock('latest');
       const resp = await this.contract.methods.buyShares(
         values.trader,
-        1,
-        // balns
-        `${Number(values.buyPrice) + (Number(values.buyPrice) * .10)}`
-      ).send({ from: this.wallet.address, maxFeePerGas: (Number(block.baseFeePerGas.toString()) * 1.251).toFixed(0).toString() });
+        values.shares,
+      ).send({ from: this.wallet.address, maxFeePerGas: (Number(block.baseFeePerGas.toString()) * 1.251).toFixed(0).toString(), value: balns });
       if (!resp) return 0;
       return resp;
     } catch (err) {
