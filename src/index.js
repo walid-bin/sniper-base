@@ -18,8 +18,8 @@ async function main() {
         };
         const balanceOf = await webThree.getBalanceOf(data.returnValues.trader);
         const resp = await webThree.web3.eth.getTransaction(data.transactionHash);
-
         response.value = webThree.web3.utils.fromWei(resp.value, 'ether');
+        // console.log({ resp, response })
         response.balanceOf = webThree.web3.utils.fromWei(balanceOf, 'ether');
 
         const shouldTrade = (response.isBuy && (response.trader === response.ref) && (Number(response.value) === 0));
